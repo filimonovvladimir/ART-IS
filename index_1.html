@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Архитектура Античности — исправленная версия</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  background: var(--rule);
+}
+.slider-container .slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+.slider-container .slide:first-child {
+  display: block;
+}
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  z-index: 10;
+}
+.slider-btn:hover { background: rgba(0,0,0,0.8); }
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
+  :root{
+    --paper:#e8e2d3;
+    --paper-2:#ded5bf;
+    --ink:#211f1a;
+    --ink-soft:#4a463d;
+    --ink-faint:#87806f;
+    --rule:#c9bfa5;
+
+    --meso:#2a4d69;
+    --meso-soft:#e2e9ee;
+    --aegean:#8f3a2b;
+    --aegean-soft:#f0e0da;
+    --greece:#33383d;
+    --greece-soft:#e6e6e2;
+    --egypt:#a8791f;
+    --egypt-soft:#f1e6cc;
+
+    --gold:#a9823a;
+
+    --etruscan:#6b2737;
+    --etruscan-soft:#ecdee1;
+    --rome:#59406f;
+    --rome-soft:#e7e1ef;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    line-height:1.5;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  h1,h2,h3,.display{font-family:'Cinzel', serif;letter-spacing:.02em;}
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,.02) 0, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,.025) 0, transparent 45%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  header.hero{
+    position:relative;
+    padding:5rem 6vw 3.5rem;
+    border-bottom:3px double var(--rule);
+  }
+  .kicker{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:1.1rem;
+  }
+  h1{
+    font-size:clamp(2rem, 4.2vw, 3.4rem);
+    font-weight:700;
+    margin:0 0 1rem;
+    color:var(--ink);
+  }
+  .hero-sub{
+    max-width:60ch;
+    color:var(--ink-soft);
+    font-size:1.08rem;
+  }
+  .legend{
+    margin-top:2.2rem;
+    display:flex;
+    gap:2.2rem;
+    flex-wrap:wrap;
+    font-size:.86rem;
+    color:var(--ink-soft);
+  }
+  .legend .item{display:flex;align-items:center;gap:.5rem;}
+  .legend .swatch{width:11px;height:11px;border-radius:2px;flex:none;}
+  .legend .mark{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--gold);color:#fff;font-size:.62rem;flex:none;
+  }
+
+  nav.jump{
+    position:sticky; top:0; z-index:20;
+    display:flex; gap:.4rem; flex-wrap:wrap;
+    padding:.7rem 6vw;
+    background:rgba(232,226,211,.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--rule);
+  }
+  nav.jump a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.74rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    text-decoration:none;
+    padding:.4rem .8rem;
+    border-radius:999px;
+    border:1px solid var(--rule);
+    color:var(--ink-soft);
+    transition:background .15s, color .15s;
+  }
+  nav.jump a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  section.civ{
+    position:relative;
+    padding:3.6rem 6vw 4.2rem;
+    border-bottom:1px solid var(--rule);
+  }
+  section.civ .civ-head{
+    display:flex; align-items:baseline; gap:1rem; flex-wrap:wrap;
+    margin-bottom:2.6rem;
+  }
+  section.civ .civ-head h2{
+    font-size:clamp(1.5rem,2.6vw,2.1rem);
+    margin:0;
+    color:var(--accent);
+  }
+  section.civ .civ-head .civ-note{
+    font-size:.86rem;
+    color:var(--ink-faint);
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  .group{ margin-bottom:2.8rem; }
+  .group:last-child{ margin-bottom:0; }
+  .group-head{
+    display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap;
+    margin-bottom:1.2rem;
+  }
+  .group-head .num{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--accent); color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.8rem; flex:none;
+  }
+  .group-head h3{
+    margin:0; font-size:1.05rem; font-weight:600;
+    color:var(--ink);
+  }
+  .group-head .g-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.76rem;
+    color:var(--ink-faint);
+  }
+
+  .thread{
+    position:relative;
+    border-top:2px solid var(--accent);
+    padding-top:1.6rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(270px,1fr));
+    gap:1.1rem;
+  }
+
+  .card{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-top:3px solid var(--accent);
+    border-radius:3px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:-1.9rem; left:1.2rem;
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    border:2px solid var(--paper);
+  }
+
+  .card-media{
+    display:flex; gap:2px;
+    background:var(--rule);
+  }
+  .card-media img{
+    width:100%; height:150px; object-fit:cover;
+    display:block;
+    flex:1 1 0;
+  }
+  .card-media.single img{ height:170px; }
+
+  .card-body{ padding:1rem 1.15rem 1.1rem; display:flex; flex-direction:column; gap:.6rem; flex:1; }
+  .card-top{ display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; }
+  .card-name{
+    font-family:'Cinzel', serif;
+    font-weight:600;
+    font-size:.98rem;
+    color:var(--ink);
+    line-height:1.25;
+  }
+  .card-date{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.68rem;
+    color:var(--accent);
+    white-space:nowrap;
+    flex:none;
+  }
+  .card-desc{
+    font-size:.87rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  .toggle-btn{
+    align-self:flex-start;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:none;
+    border:1px solid var(--rule);
+    border-radius:999px;
+    padding:.32rem .75rem;
+    color:var(--accent);
+    cursor:pointer;
+    transition:background .15s, color .15s;
+  }
+  .toggle-btn:hover{ background:var(--accent); color:#fff; }
+  .toggle-btn::after{ content:"развернуть \25BE"; }
+  .card.open .toggle-btn::after{ content:"свернуть \25B4"; }
+
+  .card-detail{
+    display:none;
+    flex-direction:column;
+    gap:.8rem;
+    padding-top:.7rem;
+    margin-top:.2rem;
+    border-top:1px dashed var(--rule);
+    font-size:.86rem;
+    color:var(--ink-soft);
+    line-height:1.55;
+  }
+  .card.open .card-detail{ display:flex; }
+
+  .example{
+    display:flex; gap:.7rem;
+    background:var(--accent-soft);
+    border-radius:4px;
+    padding:.55rem .65rem;
+    align-items:flex-start;
+  }
+  .example img{
+    width:64px; height:52px; object-fit:cover; border-radius:3px; flex:none;
+    border:1px solid rgba(0,0,0,.08);
+  }
+  .example .ex-body{ display:flex; flex-direction:column; gap:.15rem; }
+  .example .ex-name{ font-weight:600; font-size:.82rem; color:var(--ink); }
+  .example .ex-date{ font-family:'JetBrains Mono', monospace; font-size:.68rem; color:var(--ink-faint); }
+  .example .ex-blurb{ font-size:.79rem; color:var(--ink-soft); margin-top:.15rem; }
+
+  .extra-note{
+    font-size:.79rem;
+    color:var(--ink-faint);
+    font-style:italic;
+  }
+
+  .fix-note{
+    font-size:.79rem;
+    color:#5b4419;
+    background:#fbf3e0;
+    border:1px dashed var(--gold);
+    border-radius:3px;
+    padding:.5rem .6rem;
+    display:flex; gap:.45rem; align-items:flex-start;
+  }
+  .fix-note .mark{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:15px;height:15px;border-radius:50%;
+    background:var(--gold);color:#fff;font-size:.6rem;flex:none;
+    margin-top:.1rem;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  footer{
+    padding:3.2rem 6vw 4rem;
+    color:var(--ink-soft);
+    font-size:.92rem;
+    max-width:70ch;
+  }
+  footer h3{margin-top:0;}
+  footer .mono{color:var(--ink-faint);}
+
+  @media (max-width:640px){
+    header.hero{padding:3.2rem 5vw 2.4rem;}
+    section.civ{padding:2.6rem 5vw 3rem;}
+    nav.jump{padding:.6rem 5vw;}
+  }
+
+  /* === режимы (лента / сравнение / самопроверка) === */
+  .mode-tabs{
+    display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap;
+    margin-top:1.8rem;
+  }
+  .mode-tab{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
+    background:none; border:1px solid var(--rule); border-radius:999px;
+    padding:.5rem 1.1rem; color:var(--ink-soft); cursor:pointer;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .mode-tab:hover{ border-color:var(--ink); color:var(--ink); }
+  .mode-tab.active{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* === фильтр по типу сооружения === */
+  .type-filters{
+    display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap;
+    margin-top:1.1rem; padding:0 6vw;
+  }
+  .type-chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.7rem; letter-spacing:.03em;
+    background:#fff; border:1px solid var(--rule); border-radius:999px;
+    padding:.35rem .85rem; color:var(--ink-soft); cursor:pointer;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .type-chip:hover{ border-color:var(--ink-soft); }
+  .type-chip.active{ background:var(--gold); color:#fff; border-color:var(--gold); }
+  .empty-state{
+    text-align:center; color:var(--ink-faint); font-size:.9rem;
+    padding:2.5rem 1rem; font-family:'JetBrains Mono', monospace;
+  }
+
+  /* === карточка: кнопка сравнения === */
+  .compare-toggle{
+    align-self:flex-start;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.68rem; letter-spacing:.02em;
+    background:none; border:1px dashed var(--ink-faint); border-radius:999px;
+    padding:.28rem .7rem; color:var(--ink-faint); cursor:pointer;
+    transition:background .15s, color .15s, border-color .15s;
+    margin-left:.5rem;
+  }
+  .compare-toggle:hover{ border-color:var(--ink); color:var(--ink); }
+  .compare-toggle.on{ background:var(--ink); color:var(--paper); border-style:solid; border-color:var(--ink); }
+  .card-actions{ display:flex; align-items:center; }
+
+  .compare-bar{
+    position:fixed; bottom:0; left:0; right:0; z-index:30;
+    display:none; align-items:center; justify-content:center; gap:1rem;
+    background:var(--ink); color:var(--paper);
+    padding:.85rem 1.5rem; font-family:'JetBrains Mono', monospace; font-size:.8rem;
+    box-shadow:0 -4px 14px rgba(0,0,0,.18);
+  }
+  .compare-bar.show{ display:flex; }
+  .compare-bar button{
+    font-family:'JetBrains Mono', monospace; font-size:.75rem;
+    background:var(--paper); color:var(--ink); border:none; border-radius:999px;
+    padding:.45rem 1rem; cursor:pointer;
+  }
+  .compare-bar .clear-btn{ background:none; color:var(--paper); border:1px solid var(--paper); }
+
+  /* === сравнение === */
+  .compare-wrap{ padding:3.2rem 6vw 5rem; }
+  .compare-hint{
+    text-align:center; color:var(--ink-faint); font-size:.9rem;
+    max-width:56ch; margin:0 auto 2.4rem; line-height:1.6;
+  }
+  .compare-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:1.2rem;
+  }
+  .compare-card{
+    background:#fff; border:1px solid var(--rule); border-top:3px solid var(--c-accent, var(--gold));
+    border-radius:3px; display:flex; flex-direction:column; overflow:hidden;
+  }
+  .compare-card img{ width:100%; height:150px; object-fit:cover; display:block; }
+  .compare-card .cc-body{ padding:1rem 1.1rem 1.2rem; display:flex; flex-direction:column; gap:.45rem; flex:1; }
+  .compare-card .cc-civ{ font-family:'JetBrains Mono', monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--c-accent, var(--gold)); }
+  .compare-card .cc-name{ font-family:'Cinzel', serif; font-weight:600; font-size:1rem; }
+  .compare-card .cc-date{ font-family:'JetBrains Mono', monospace; font-size:.7rem; color:var(--ink-faint); }
+  .compare-card .cc-desc{ font-size:.85rem; color:var(--ink-soft); line-height:1.55; flex:1; }
+  .compare-card .cc-remove{
+    align-self:flex-start; font-family:'JetBrains Mono', monospace; font-size:.68rem;
+    background:none; border:1px solid var(--rule); border-radius:999px;
+    padding:.3rem .7rem; color:var(--ink-faint); cursor:pointer;
+  }
+  .compare-card .cc-remove:hover{ border-color:#a33; color:#a33; }
+
+  /* === самопроверка === */
+  .quiz-wrap{ padding:3.2rem 6vw 5rem; display:flex; flex-direction:column; align-items:center; }
+  .quiz-setup{ text-align:center; max-width:52ch; }
+  .quiz-setup p{ color:var(--ink-soft); font-size:.95rem; line-height:1.6; }
+  .quiz-civ-picks{ display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; margin:1.4rem 0; }
+  .quiz-start-btn{
+    font-family:'JetBrains Mono', monospace; font-size:.85rem; text-transform:uppercase; letter-spacing:.05em;
+    background:var(--ink); color:var(--paper); border:none; border-radius:999px;
+    padding:.7rem 1.6rem; cursor:pointer;
+  }
+  .quiz-card{
+    background:#fff; border:1px solid var(--rule); border-top:3px solid var(--gold);
+    border-radius:4px; max-width:420px; width:100%; overflow:hidden;
+  }
+  .quiz-card img{ width:100%; height:260px; object-fit:cover; display:block; background:var(--rule); }
+  .quiz-body{ padding:1.4rem 1.5rem 1.6rem; display:flex; flex-direction:column; gap:.7rem; }
+  .quiz-progress{ font-family:'JetBrains Mono', monospace; font-size:.72rem; color:var(--ink-faint); text-align:center; }
+  .quiz-answer{ display:none; flex-direction:column; gap:.4rem; border-top:1px dashed var(--rule); padding-top:.8rem; }
+  .quiz-answer.show{ display:flex; }
+  .quiz-answer .qa-name{ font-family:'Cinzel', serif; font-weight:600; font-size:1.05rem; }
+  .quiz-answer .qa-meta{ font-family:'JetBrains Mono', monospace; font-size:.72rem; color:var(--ink-faint); }
+  .quiz-answer .qa-blurb{ font-size:.85rem; color:var(--ink-soft); line-height:1.5; }
+  .quiz-actions{ display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; }
+  .quiz-actions button{
+    font-family:'JetBrains Mono', monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.03em;
+    border-radius:999px; padding:.55rem 1.1rem; cursor:pointer; border:1px solid var(--rule); background:#fff; color:var(--ink);
+  }
+  .quiz-actions .reveal-btn{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .quiz-actions .know-btn{ border-color:#3a6b3a; color:#3a6b3a; }
+  .quiz-actions .dontknow-btn{ border-color:#a33; color:#a33; }
+  .quiz-score{ font-family:'JetBrains Mono', monospace; font-size:.76rem; color:var(--ink-soft); text-align:center; margin-top:1.2rem; }
+  .quiz-done{ text-align:center; }
+  .quiz-done .qd-score{ font-family:'Cinzel', serif; font-size:1.6rem; margin:.6rem 0 1.2rem; }
+
+  @media (max-width:640px){
+    .compare-bar{ flex-direction:column; gap:.6rem; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Архитектура Античности</h1>
+  <p class="hero-sub"> Месопотамия, Крит и Микены, Греция, Египет, Этруски, Древний Рим.</p>
+  <div class="legend">
+    <div class="item"><span class="swatch" style="background:var(--meso)"></span>Месопотамия</div>
+    <div class="item"><span class="swatch" style="background:var(--aegean)"></span>Крит и Микены</div>
+    <div class="item"><span class="swatch" style="background:var(--greece)"></span>Греция</div>
+    <div class="item"><span class="swatch" style="background:var(--egypt)"></span>Египет</div>
+    <div class="item"><span class="swatch" style="background:var(--etruscan)"></span>Этруски</div>
+    <div class="item"><span class="swatch" style="background:var(--rome)"></span>Древний Рим</div>
+  </div>
+</header>
+<!-- Режимы -->
+<div class="mode-tabs">
+  <button class="mode-tab active" data-mode="timeline" type="button">Лента</button>
+  <button class="mode-tab" data-mode="compare" type="button">Сравнение</button>
+  <button class="mode-tab" data-mode="quiz" type="button">Самопроверка</button>
+</div>
+
+<!-- Строка поиска -->
+<div id="timelineControls" style="margin-top: 1.2rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;">
+  <input type="text" id="searchInput" placeholder="Поиск по названию..." style="width: 60%; max-width: 600px; padding: 12px 18px; font-size: 1rem; border: 1px solid var(--rule); border-radius: 999px; background: #fff; color: var(--ink); font-family: 'Source Serif 4', serif; outline: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.2s;">
+  <button id="searchBtn" style="padding: 12px 24px; font-size: 1rem; font-family: 'JetBrains Mono', monospace; background: var(--ink); color: var(--paper); border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s;">Найти</button>
+  <button id="resetBtn" style="padding: 12px 24px; font-size: 1rem; font-family: 'JetBrains Mono', monospace; background: var(--rule); color: var(--ink); border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s;">Сбросить</button>
+</div>
+<div class="type-filters" id="typeFilters"></div>
+
+<nav class="jump" id="jumpNav">
+  <a href="#meso">Месопотамия</a>
+  <a href="#aegean">Крит и Микены</a>
+  <a href="#greece">Греция</a>
+  <a href="#egypt">Египет</a>
+  <a href="#etruscan">Этруски</a>
+  <a href="#rome">Древний Рим</a>
+</nav>
+
+<main>
+  <div id="root" class="view active"></div>
+  <div id="compareView" class="view compare-wrap">
+    <p class="compare-hint">Отметьте кнопкой «+ сравнить» на карточках в «Ленте» два и более объекта — здесь они встанут рядом, чтобы удобно сопоставить эпохи, конструкции и датировки.</p>
+    <div class="compare-grid" id="compareGrid"></div>
+  </div>
+  <div id="quizView" class="view quiz-wrap"></div>
+</main>
+
+<div class="compare-bar" id="compareBar">
+  <span id="compareCount">В сравнении: 0</span>
+  <button type="button" id="compareGoBtn">Показать сравнение</button>
+  <button type="button" class="clear-btn" id="compareClearBtn">Очистить</button>
+</div>
+
+<footer>
+  <h3 class="display" style="font-size:1.1rem;">Дальше</h3>
+  <p>Фильтр по типу сооружения, режим «Сравнение» и «Самопроверка» (вкладки вверху страницы) работают на этом же наборе данных (civ → период → карточка → примеры с фото и датами) — добавить в них новый материал значит просто дополнить DATA. Раздел «Древний Рим» добавлен сюда же отдельным блоком; следующий раздел встанет тем же способом.</p>
+  <p class="mono">Все даты приблизительные (ок.) — античная хронология почти всегда предмет уточнений среди историков.</p>
+</footer>
+
+<script>
+// ЗДЕСЬ Я ЗАМЕНИЛ ОГРОМНЫЕ СТРОКИ BASE64 НА ОБЫЧНЫЕ ССЫЛКИ НА ФАЙЛЫ
+const IMAGES = {
+  "abu_simbel": "images/abu_simbel.jpg",
+  "amphiprostyle": "images/amphiprostyle.jpg",
+  "assyrian_palace": "images/assyrian_palace.jpg",
+  "dipteros_artemis_ephesus": "images/dipteros_artemis_ephesus.jpg",
+  "djoser_pyramid": "images/djoser_pyramid.jpg",
+  "erechtheion": "images/erechtheion.jpg",
+  "giza_pyramids": "images/giza_pyramids.jpg",
+  "hanging_gardens": "images/hanging_gardens.jpg",
+  "hatshepsut_temple": "images/hatshepsut_temple.jpg",
+  "ishtar_gate": "images/ishtar_gate.jpg",
+  "karnak_temple": "images/karnak_temple.jpg",
+  "khafre_temple": "images/khafre_temple.jpg",
+  "knossos_crete": "images/knossos_crete.jpg",
+  "lion_gate": "images/lion_gate.jpg",
+  "luxor_temple": "images/luxor_temple.jpg",
+  "mastaba": "images/mastaba.jpg",
+  "mausoleum_halicarnassus": "images/mausoleum_halicarnassus.jpg",
+  "megaron_plan": "images/megaron_plan.jpg",
+  "mentuhotep_temple": "images/mentuhotep_temple.jpg",
+  "monopteros_philippeion": "images/monopteros_philippeion.jpg",
+  "niuserre_sun_temple": "images/niuserre_sun_temple.jpg",
+  "peripteros_parthenon": "images/peripteros_parthenon.jpg",
+  "propylaea": "images/propylaea.jpg",
+  "prostyle": "images/prostyle.jpg",
+  "pseudodipteros": "images/pseudodipteros.jpg",
+  "pseudoperipteros_maison_carree": "images/pseudoperipteros_maison_carree.jpg",
+  "ramesses3_temple": "images/ramesses3_temple.jpg",
+  "shedu": "images/shedu.jpg",
+  "sphinx": "images/sphinx.jpg",
+  "temple_dom": "images/temple_dom.jpg",
+  "temple_in_antis": "images/temple_in_antis.jpg",
+  "theater_epidauros": "images/theater_epidauros.jpg",
+  "tholos_aerial": "images/tholos_aerial.jpg",
+  "tholos_entrance": "images/tholos_entrance.jpg",
+  "tiryns_wrong_knossos": "images/tiryns_wrong_knossos.jpg",
+  "ziggurat": "images/ziggurat.jpg",
+  "porta_allarco": "images/porta_allarco.jpg",
+  "veii_portonaccio_temple": "images/veii_portonaccio_temple.jpg",
+  "banditaccia_necropolis": "images/banditaccia_necropolis.jpg",
+  "norchia_facade": "images/norchia_facade.jpg",
+  "norchia_interior": "images/norchia_interior.jpg",
+  "etruscan_domus": "images/etruscan_domus.jpg",
+  "aqueduct_pont_du_gard": "images/aqueduct_pont_du_gard.jpg",
+  "aqueduct_aqua_appia": "images/aqueduct_aqua_appia.jpg",
+  "bridge_alcantara": "images/bridge_alcantara.jpg",
+  "via_appia": "images/via_appia.jpg",
+  "roman_forum": "images/roman_forum.jpg",
+  "basilica_maxentius": "images/basilica_maxentius.jpg",
+  "baths_caracalla": "images/baths_caracalla.jpg",
+  "theatre_marcellus": "images/theatre_marcellus.jpg",
+  "colosseum": "images/colosseum.jpg",
+  "circus_maximus": "images/circus_maximus.jpg",
+  "temple_portunus": "images/temple_portunus.jpg",
+  "pantheon": "images/pantheon.jpg",
+  "ara_pacis": "images/ara_pacis.jpg",
+  "villa_mysteries_pompeii": "images/villa_mysteries_pompeii.jpg",
+  "mausoleum_augustus": "images/mausoleum_augustus.jpg",
+  "tomb_cecilia_metella": "images/tomb_cecilia_metella.jpg",
+  "arch_titus": "images/arch_titus.jpg",
+  "arch_septimius_severus": "images/arch_septimius_severus.jpg"
+};
+
+const DATA = [
+  {
+    key:"meso", civ:"Месопотамия", accent:"meso",
+    note:"Шумер, Аккад, Вавилон, Ассирия, Нововавилон",
+    groups:[
+      { period:"Шумер, Аккад, Вавилон", date:"ок. 2100 – 1595 до н.э.", num:1, items:[
+        { name:"Храм-Дом", date:"ок. XXI в. до н.э.", type:"temple",
+          desc:"Прообраз зиккурата, считался домом бога. Стоял на высокой платформе — защита от наводнений; в стенах устраивали ниши против выветривания.",
+          detail:"Храм-дом — древнейшая культовая постройка Шумера: не «символ идеи», а буквально жилище бога, где хранилась его статуя и совершались подношения. Уже в IV тысячелетии до н.э. такие храмы начали ставить на возвышении — сперва из практических соображений (защита от разлива Тигра и Евфрата), а затем культ наращивания платформы с каждым новым храмом поверх старого породил ступенчатую форму зиккурата.",
+          examples:[
+            { name:"Храм Нанны в Уре", img:"temple_dom", date:"ок. 2100 до н.э.", blurb:"Часть храмового комплекса Э-кишнугаль в Уре, посвящённого лунному богу Нанне (аккад. Син) — покровителю города. Перестроен при Ур-Намму вместе со знаменитым зиккуратом." }
+          ],
+          },
+        { name:"Шеду", date:"ок. VIII в. до н.э.", type:"monument",
+          desc:"Стражи ворот и дворцов: тело быка, голова человека, крылья орла. Не архитектура в чистом виде, но раз сфинкс в таймлайне — шеду тоже уместен.",
+          detail:"Гибридная природа шеду (сила быка, зоркость орла, разум человека) должна была означать совершенную защиту. Колоссов ставили парами по сторонам входа во дворец так, чтобы спереди фигура казалась стоящей, а сбоку — шагающей: для этого скульпторы добавляли пятую ногу, видимую только при взгляде сбоку.",
+          examples:[
+            { name:"Шеду из Дур-Шаррукина", img:"shedu", date:"ок. 713–706 до н.э.", blurb:"Из дворца Саргона II в Дур-Шаррукине (совр. Хорсабад, Ирак) — у входа в тронный зал стояло не менее семи таких колоссов." }
+          ],
+          },
+        { name:"Зиккурат", date:"ок. XXI в. до н.э.", type:"temple",
+          desc:"Ступенчатое культовое сооружение; выполняло экономическую, социальную и религиозную функции в жизни шумерского города-государства.",
+          detail:"Зиккурат — не «пирамида для восхождения к небу» в буквальном смысле: внутрь ступенчатого тела зайти было нельзя, оно строилось сплошным массивом из сырцового кирпича. Ядро выкладывали необожжённым кирпичем, а облицовку — обожжённым на битумном растворе, чтобы защитить конструкцию от дождя. Единой доказанной функции у зиккуратов нет: помимо культовой, за ними закрепляли и хозяйственно-административную роль центра города-государства.",
+          examples:[
+            { name:"Зиккурат в Уре", img:"ziggurat", date:"ок. 2100 до н.э. (Ур-Намму, III династия Ура)", blurb:"Лучше всего сохранившийся зиккурат Месопотамии; частично реконструирован в XX веке. Изначально три яруса, облицованные обожжённым кирпичём." }
+          ],
+          },
+      ]},
+      { period:"Ассирия, Нововавилон", date:"ок. 900 – 539 до н.э.", num:2, items:[
+        { name:"Врата Иштар", date:"ок. 575 до н.э.", type:"urban",
+          desc:"Парадный въезд в Вавилон, посвящённый богине Иштар, использовался для процессий. Облицован обожжёнными глазурованными кирпичами с рельефами быков и драконов-мушхуш.",
+          detail:"Одна из восьми парадных ворот, кольцом окружавших Вавилон при Навуходоносоре II. Рельефы быков (символ бога Адада) и драконов-мушхуш (символ Мардука) выложены глазурованными кирпичами — каждый кирпич формовался под конкретное место рельефа, фактически конструктор из тысяч деталей. По улице процессий, ведущей через ворота, в дни новогоднего праздника акиту провозили статую Мардука.",
+          examples:[
+            { name:"Ворота Иштар", img:"ishtar_gate", date:"ок. 575 до н.э. (Навуходоносор II)", blurb:"Подлинник реконструирован в Пергамском музее в Берлине (вывезен раскопками начала XX века); в самом Вавилоне сейчас стоит уменьшенная копия." }
+          ],
+          },
+        { name:"Висячие сады?", date:"датировка спорна", type:"monument",
+          desc:"Одно из семи чудес света по поздним источникам. Предположительно — система террас с ирригацией, деревьями и кустарником. Существование, локализация и принадлежность именно Вавилону остаются предметом дискуссии историков.",
+          detail:"Единственное из семи чудес света, чьё местонахождение не подтверждено археологически. Античные авторы (Диодор, Страбон) описывают сады со слов более ранних источников, но ни одна вавилонская клинописная надпись их впрямую не упоминает. В 2013 году ассириолог Стефани Дэлли предложила альтернативную гипотезу: описанные сады на самом деле находились в Ниневии и были построены ассирийским царём Синаххерибом веком раньше.",
+          examples:[
+            { name:"«Висячие сады Семирамиды» (легендарные, локализация не подтверждена)", img:"hanging_gardens", date:"датировка спорна: VII–VI вв. до н.э." }
+          ],
+         },
+        { name:"Ассирийский дворец", date:"ок. VIII–VII вв. до н.э.", type:"palace",
+          desc:"Строился в виде прямоугольника, состоял из нескольких крупных блоков; к парадному входу вели длинные пандусы с рельефами, фасад фланкировали две башни.",
+          detail:"Ассирийские дворцы совмещали функции резиденции царя и демонстрации имперской власти: гостя, поднимающегося по пандусу, встречала стена рельефов с военными триумфами и охотничьими сценами, а вход фланкировали каменные колоссы-шеду. Внутренние помещения группировались вокруг нескольких дворов — парадного и жилого.",
+          examples:[
+            { name:"Резиденция Саргона II (Дур-Шаррукин)", img:"assyrian_palace", date:"ок. 713–706 до н.э.", blurb:"Дворец строился как часть новой столицы, специально основанной Саргоном II; после его гибели в бою столицу перенесли в Ниневию, и Дур-Шаррукин так и не был полностью заселён." }
+          ],
+          },
+      ]},
+    ]
+  },
+  {
+    key:"aegean", civ:"Крит и Микены", accent:"aegean",
+    note:"минойская и микенская (элладская) культуры бронзового века",
+    groups:[
+      { period:"Крит (минойская культура)", date:"ок. 2000 – 1450 до н.э.", num:1, items:[
+        { name:"Дворцы", date:"ок. 1700–1450 до н.э.", type:"palace",
+          desc:"Строились и достраивались на протяжении веков — ассиметричные, неоднородные комплексы, центры экономической, политической и религиозной жизни.",
+          detail:"Минойские дворцы — не единое строение по заранее заданному плану, а органически разросшийся комплекс из сотен помещений вокруг центрального прямоугольного двора, ориентированного почти всегда по линии север-юг. В отличие от Месопотамии и материковой Греции, критские дворцы не были укреплены — историки связывают это с морским господством Крита (талассократией), хотя причина до конца не доказана. Кносский дворец несколько раз перестраивался после землетрясений; то, что видит турист сегодня, — во многом реконструкция археолога Артура Эванса начала XX века, местами спорная.",
+          examples:[
+            { name:"Кносский дворец", img:"knossos_crete", date:"«новый дворец» ок. 1700–1450 до н.э.", blurb:"Крупнейший минойский дворец, около 1300 помещений; с ним связан миф о Лабиринте и Минотавре — вероятно, само слово «лабиринт» происходит от labrys, критского двойного топора, символ которого часто встречается на стенах дворца." }
+          ],
+          extra:"Также относятся к этому типу дворцы в Фесте, Малии и Закросе — на Крите, со схожей планировкой вокруг центрального двора.",
+          },
+      ]},
+      { period:"Микены (элладская культура)", date:"ок. 1600 – 1100 до н.э.", num:2, items:[
+        { name:"Мегарон", date:"ок. 1300–1200 до н.э.", type:"palace",
+          desc:"Прямоугольный зал с очагом в центре и портиком колонн на входе (по схеме «в антах»). Микенская, не минойская форма — на Крите дворцы устроены иначе, вокруг двора. Считается прообразом будущих греческих храмов.",
+          detail:"Мегарон — функциональное ядро власти в микенском обществе: прямоугольный зал (обычно в пропорции примерно 2:1) с круглым очагом посередине и четырьмя колоннами вокруг него, поддерживавшими крышу с дымовым отверстием. Перед залом — открытый портик in antis (между выступами боковых стен), иногда с ещё одним преддверием перед ним. Считается, что именно эта трёхчастная схема — портик, преддверие, зал — легла в основу планировки классического греческого храма спустя века после падения микенской цивилизации.",
+          examples:[
+            { name:"Мегарон дворца Нестора в Пилосе", img:"megaron_plan", date:"ок. 1300–1200 до н.э.", blurb:"Лучше всего раскопанный микенский мегарон; здесь же найден архив глиняных табличек линейного письма Б — благодаря им мы знаем о микенской экономике куда больше, чем о самой архитектуре мегарона." }
+          ],
+          },
+        { name:"Дворцы-цитадели", date:"ок. 1400–1200 до н.э.", type:"urban",
+          desc:"Укреплённые центры с очень толстыми циклопическими стенами и чёткой, логичной планировкой.",
+          detail:"«Циклопической» кладку микенских стен назвали уже сами античные греки классической эпохи: блоки весом в несколько тонн, положенные без раствора, казались им непосильными для человеческих рук — вот и приписали работу одноглазым циклопам. Толщина стен в Тиринфе достигает 7–8 метров, внутри иногда устраивали галереи-казематы. В отличие от открытых минойских дворцов, микенские цитадели — прежде всего военные крепости на возвышенности, и лишь во вторую очередь резиденции.",
+          examples:[
+            { name:"Цитадель в Тиринфе", img:"tiryns_wrong_knossos", date:"стены ок. 1400–1200 до н.э.", blurb:"Один из главных примеров циклопической кладки; вместе с Микенами и Пилосом входит в число ключевых микенских цитаделей материковой Греции." }
+          ],
+          },
+        { name:"Львиные врата", date:"ок. 1250 до н.э.", type:"urban",
+          desc:"Ворота цитадели Микен из огромных каменных плит; одна плита украшена рельефом двух львов, чьи головы (утрачены) были выполнены отдельно, возможно из металла, и смотрели на входящих.",
+          detail:"Главный, парадный вход в цитадель Микен, встроенный в циклопическую стену. Треугольная разгрузочная плита над притолокой (приём, снижающий нагрузку на перемычку) украшена рельефом двух львов (или львиц), симметрично стоящих у сужающейся книзу колонны минойского типа. Первоначальный материал голов фигур остаётся предметом дискуссии.",
+          examples:[
+            { name:"Львиные ворота в Микенах", img:"lion_gate", date:"ок. 1250 до н.э." }
+          ],
+          },
+        { name:"Толосы", date:"ок. 1250 до н.э.", type:"tomb",
+          desc:"Купольные гробницы царей и знати, наполовину заглублённые в землю. Устройство: дромос (коридор) → стомион (преддверие) → купольная погребальная камера.",
+          detail:"Купол толоса — на самом деле ложный свод («напускной»): каждый следующий ряд каменной кладки чуть выступает внутрь по сравнению с предыдущим, пока кольцо не смыкается в вершине, без настоящей арки или замкового камня. Дромос — открытый коридор к входу — специально ориентировали и оформляли так, чтобы подчеркнуть монументальность подхода. Купол гробницы Атрея (14,5 м в диаметре) оставался крупнейшим купольным сооружением в мире вплоть до римского Пантеона — то есть больше 1400 лет.",
+          examples:[
+            { name:"Гробница Атрея — устройство (схема)", img:"tholos_aerial", date:"ок. 1250 до н.э.", blurb:"Схема показывает дромос, стомион и купольную камеру диаметром 14,5 м — на момент постройки крупнейший купол в мире." },
+            { name:"Гробница Атрея — вход", img:"tholos_entrance", date:"ок. 1250 до н.э.", blurb:"Название условно: так гробницу называли уже античные путешественники (в том числе Павсаний), хотя настоящий владелец неизвестен." }
+          ],
+		  gallery: true,
+          },
+      ]},
+    ]
+  },
+  {
+    key:"greece", civ:"Греция", accent:"greece",
+    note:"Архаика, Классика, Эллинизм",
+    groups:[
+      { period:"Архаика", date:"типологически ок. VII–VI вв. до н.э.", num:1, items:[
+        { name:"Храм в антах", date:"ок. 510–480 до н.э.", type:"temple",
+          desc:"Простейший тип греческого храма: наос с портиком из двух колонн между выступами торцевых стен (антами).",
+          detail:"Самый экономный по конструкции греческий храм: два столба-анты (утолщения торцевых стен наоса) фланкируют вход, между ними иногда ставили одну-две дополнительные колонны. Такая схема требовала минимум материала и часто использовалась для небольших сокровищниц (тезаврос) — построек, которые греческие города-государства возводили в общегреческих святилищах (Дельфы, Олимпия), чтобы хранить дары богам и подчёркивать собственный престиж среди других полисов.",
+          examples:[
+            { name:"Сокровищница афинян в Дельфах", img:"temple_in_antis", date:"ок. 510–480 до н.э.", blurb:"По легенде, построена на добычу от битвы при Марафоне. Небольшой масштаб не помешал украсить её метопами с подвигами Тесея и Геракла — одними из лучших образцов ранней классики." }
+          ],
+          },
+        { name:"Простиль", date:"ок. 460–415 до н.э.", type:"temple",
+          desc:"Храм с колоннадой только на главном фасаде, без колонн по периметру здания.",
+          detail:"Простиль — следующий шаг по сложности после храма в антах: колоннада выстроена в ряд перед фасадом, но не заходит на боковые и заднюю стены. Такая форма особенно полюбилась в эллинистическую и римскую эпохи для построек, где полный периптер был бы избыточен по масштабу или бюджету.",
+          examples:[
+            { name:"Храм Гефеста в Афинах (Гефестейон)", img:"prostyle", date:"ок. 460–415 до н.э.", blurb:"Лучше всего сохранившийся классический дорический храм Греции." }
+          ],
+          },
+        { name:"Амфипростиль", date:"ок. 427–424 до н.э.", type:"temple",
+          desc:"Храм с двумя портиками колонн — на переднем и заднем фасадах, боковые стены глухие.",
+          detail:"Колоннада стоит и на переднем, и на заднем фасаде, а боковые стены остаются глухими — храм словно «прошит» колоннами насквозь только по короткой оси. Такая форма хорошо смотрелась на компактных, стеснённых площадках вроде бастиона афинского Акрополя.",
+          examples:[
+            { name:"Храм Ники Аптерос (Афина Ника)", img:"amphiprostyle", date:"ок. 427–424 до н.э., архитектор Калликрат", blurb:"«Аптерос» значит «бескрылая» — по легенде, афиняне намеренно изобразили богиню победы без крыльев, чтобы она никогда не могла улететь из города." }
+          ],
+         },
+      ]},
+      { period:"Классика", date:"ок. 480 – 323 до н.э.", num:2, items:[
+        { name:"Периптер", date:"447–438 до н.э.", type:"temple",
+          desc:"Главный тип храма классической архитектуры: колоннада окружает здание по всему периметру, пропорции выверены математически, внутреннее пространство обычно делится на три части.",
+          detail:"«Птерон» по-гречески «крыло» — колоннада буквально обрамляет здание крыльями со всех сторон. Число колонн на переднем фасаде почти всегда чётное (чтобы вход в наос был точно по центральной оси, а не упирался в колонну), число боковых колонн обычно рассчитывалось по формуле 2n+1 от числа торцевых. Пропорции периптеров строились по модульной системе, где диаметр колонны у основания служил единицей измерения для всех остальных частей здания.",
+          examples:[
+            { name:"Парфенон", img:"peripteros_parthenon", date:"447–438 до н.э. (декор — до 432 до н.э.), архитекторы Иктин и Калликрат", blurb:"8×17 колонн. Знаменит энтазисом (едва заметным утолщением стволов колонн) и курватурой — микроскопическими изгибами стилобата и антаблемента, компенсирующими оптические иллюзии зрения: по-настоящему прямых линий в здании почти нет." }
+          ],
+          extra:"Также периптеры: храм Зевса в Олимпии, храм Посейдона в Пестуме (Великая Греция, совр. Италия).",
+          },
+        { name:"Театр", date:"ок. 340 до н.э.", type:"public",
+          desc:"Начало театральной архитектуры: полукруглые ряды каменных мест вокруг орхестры — площадки для выступлений.",
+          detail:"Греческий театр вырастал не из отдельного здания, а из естественного склона холма — так решалась задача идеальной акустики без всякой техники: даже шёпот со сцены-орхестры слышен на последних рядах. Театрон (места для зрителей) занимает сектор чуть больше полукруга, скена (сценическое здание) стоит за орхестрой.",
+          examples:[
+            { name:"Театр в Эпидавре", img:"theater_epidauros", date:"ок. 340 до н.э., архитектор Поликлет Младший", blurb:"55 рядов, вмещал до 14 000 зрителей; считается акустически совершенным и до сих пор используется для постановок античных трагедий." }
+          ],
+          },
+        { name:"Моноптер", date:"ок. 338–334 до н.э.", type:"monument",
+          desc:"Круглый в плане храм-беседка: кольцо колонн без стен целлы, несущее крышу.",
+          detail:"Моноптер — редкий для греческой архитектуры круглый тип: кольцо колонн несёт крышу, стен нет вовсе (в отличие от толоса, где внутри кольца колонн есть ещё и круглая стена целлы). Такие постройки чаще возводили не для обычного культа, а как памятные, мемориальные сооружения.",
+          examples:[
+            { name:"Филиппейон в Олимпии", img:"monopteros_philippeion", date:"начат ок. 338 до н.э., завершён ок. 334 до н.э.", blurb:"Единственная постройка в священном округе Альтис, посвящённая не богам, а людям — македонской царской семье. Внутри стояли хризелефантинные (золото и слоновая кость) статуи Филиппа II, его жены и сына Александра работы Леохара." }
+          ],
+          },
+        { name:"Эрехтейон", date:"ок. 421–406 до н.э.", type:"temple",
+          desc:"Уникальный храм сразу нескольких культов (Афина Полиада, Посейдон-Эрехтей), поэтому состоит из разноуровневых частей; включает портик кариатид — опорных колонн в виде женских фигур (мужской аналог — атланты).",
+          detail:"Ассиметричная, разноуровневая планировка Эрехтейона — не архитектурная прихоть, а следствие того, что храм пришлось встроить в неровный, насыщенный святынями участок Акрополя: здесь, по преданию, спорили за покровительство над Афинами Афина (посадившая оливу) и Посейдон (высекший трезубцем источник). Здание объединяет несколько культов на разных уровнях пола, поэтому у него четыре непохожих друг на друга фасада — редкость для обычно строго симметричного греческого храма.",
+          examples:[
+            { name:"Эрехтейон на афинском Акрополе", img:"erechtheion", date:"ок. 421–406 до н.э." }
+          ],
+          },
+        { name:"Мавзолей в Галикарнасе", date:"ок. 353–350 до н.э.", type:"tomb",
+          desc:"Гробница карийского правителя Мавсола (династия Гекатомнидов): ступенчатое пирамидальное основание и колоннада по типу периптера. По современным оценкам украшена не менее чем 330 статуями — одно из семи чудес света.",
+          detail:"Само слово «мавзолей», ставшее нарицательным для любой парадной гробницы, происходит от имени Мавсола. Сооружение объединяло три архитектурные традиции: ступенчатое, почти египетское основание, греческую периптеральную колоннаду в средней части и пирамидальную ступенчатую крышу с колесницей-квадригой наверху. Над скульптурным убранством работали сразу четыре знаменитых мастера классической Греции — Скопас, Бриаксис, Тимофей и Леохар, каждый отвечал за свою сторону здания.",
+          examples:[
+            { name:"Мавзолей в Галикарнасе (Бодрум)", img:"mausoleum_halicarnassus", date:"ок. 353–350 до н.э.", blurb:"Заказан вдовой (и одновременно сестрой) Мавсола Артемисией II; разрушен землетрясениями в Средние века, камень частично пошёл на постройку крепости Св. Петра рыцарей-госпитальеров." }
+          ],
+          },
+        { name:"Пропилеи", date:"437–432 до н.э.", type:"urban",
+          desc:"Парадный проход, обычно с колоннадой и опорными башнями — вход в стене или на акрополь.",
+          detail:"Монументальные ворота на входе в священный участок — в отличие от обычных городских ворот, пропилеи не столько защищали, сколько торжественно обставляли переход из будничного пространства в сакральное.",
+          examples:[
+            { name:"Пропилеи Афинского Акрополя", img:"propylaea", date:"437–432 до н.э., архитектор Мнесикл", blurb:"Так и не были достроены до конца — работы прервала Пелопоннесская война." }
+          ],
+		  gallery: true,
+          },
+      ]},
+      { period:"Эллинизм", date:"ок. 323 – 31 до н.э.", num:3, items:[
+        { name:"Диптер", date:"ок. 350 до н.э.", type:"temple",
+          desc:"Храм с двойным рядом колонн по всему периметру.",
+          detail:"Двойной ряд колонн по периметру превращал периптер в диптер — здание становилось заметно масштабнее, а глубокий колонный «лес» между двумя рядами создавал совсем другое, более торжественное впечатление при подходе. Диптеры строили редко — очень затратно, поэтому такой тип характерен в первую очередь для самых амбициозных построек ионической Малой Азии.",
+          examples:[
+            { name:"Храм Артемиды в Эфесе", img:"dipteros_artemis_ephesus", date:"перестроен ок. 350 до н.э. (архитектор Хейрократ) после пожара 356 до н.э.", blurb:"Одно из семи чудес света; сгорел в ночь, когда, по легенде, родился Александр Македонский — поджёг его Герострат ради славы (отсюда «геростратова слава»). До нас дошли лишь фундаменты и одна восстановленная колонна." }
+          ],
+          extra:"Также диптер: храм Аполлона в Дидимах (Дидимайон) близ Милета.",
+         },
+        { name:"Псевдодиптер", date:"ок. II в. до н.э.", type:"temple",
+          desc:"Диптер, у которого убран внешний ряд колонн, но расстояние между целлой и колоннадой сохранено — «память» о двойном ряде.",
+          detail:"Архитектор Гермоген (2 в. до н.э.) считается изобретателем этой формы: внешний ряд колонн диптера убирался, но расстояние между целлой и колоннадой сохранялось таким же широким, как если бы этот ряд всё ещё стоял — получался просторный обходной портик без затрат на «лишнее» кольцо колонн.",
+          examples:[
+            { name:"Храм Артемиды Левкофрины в Магнесии", img:"pseudodipteros", date:"ок. II в. до н.э., архитектор Гермоген", blurb:"Считается образцовой, «учебниковой» реализацией псевдодиптера — по свидетельству Витрувия, Гермоген сам описал принцип этого типа в несохранившемся трактате." }
+          ],
+          },
+        { name:"Псевдопериптер", date:"ок. I в. н.э. (римский)", type:"temple",
+          desc:"Периптер, у которого боковые и задний ряды колонн заменены полуколоннами, приставленными к стене целлы; свободно стоит только передний портик.",
+          detail:"У псевдопериптера свободно стоит только передний портик, а по бокам и сзади колонны становятся полуколоннами, «утопленными» в стену целлы. Это по сути не греческое, а римское/этрусское изобретение: греки почти не строили по этой схеме, зато она отлично решала практическую задачу римского храма на форуме — представительный фасад с полноценной колоннадой при экономии места по бокам, где обойти здание кругом, как в греческом теменосе, было почти невозможно.",
+          examples:[
+            { name:"Мезон Каре, Ним (Франция)", img:"pseudoperipteros_maison_carree", date:"ок. 4–7 гг. н.э., эпоха Августа", blurb:"Не греческий и не эллинистический храм, а римский — оставлен здесь как самый наглядный и лучше всего сохранившийся пример именно этого типа. Вернёмся к нему в разделе «Рим»: он почти один в один послужил образцом для церкви Мадлен в Париже и Капитолия штата Виргиния в США." }
+          ],
+          },
+      ]},
+    ]
+  },
+  {
+    key:"egypt", civ:"Египет", accent:"egypt",
+    note:"Древнее, Среднее, Новое царства",
+    groups:[
+      { period:"Древнее царство", date:"ок. 2686 – 2181 до н.э.", num:1, items:[
+        { name:"Мастабы", date:"ок. 2400–2300 до н.э.", type:"tomb",
+          desc:"«Скамья» (араб.): прямоугольная гробница из трёх частей — наземный поминальный зал, глухая камера для статуи Ка/Ба, подземный склеп с саркофагом.",
+          detail:"Название «мастаба» («скамья» по-арабски) дали местные феллахи из-за характерной формы: невысокое прямоугольное здание с наклонными стенами скрывает куда более сложную структуру. Сердаб — глухая, не соединённая с остальными помещениями камера — хранил статую-двойник умершего (для Ка, жизненной силы); в стене сердаба иногда оставляли узкую щель на уровне глаз статуи, чтобы Ка «видел» подношения. Из мастабы, поставленной на мастабу, и выросла первая пирамида — ступенчатая пирамида Джосера.",
+          examples:[
+            { name:"Мастаба Ти в Саккаре", img:"mastaba", date:"ок. 2400 до н.э. (V династия)", blurb:"Знаменита исключительно подробными и живыми рельефами хозяйственных сцен: рыбная ловля, разведение скота, ремёсла — ценный источник по повседневной жизни Древнего царства." },
+            { name:"Мастаба Мерерука в Саккаре", img:"mastaba", date:"ок. 2300 до н.э. (VI династия, правление Тети)", blurb:"Крупнейшая непарская гробница Саккары — более 30 помещений; Мерерука был визирем и был женат на дочери фараона Тети." }
+          ],
+		  gallery: true,
+          },
+        { name:"Большой сфинкс", date:"ок. 2500 до н.э.", type:"monument",
+          desc:"Высечен из цельной известняковой скалы; предположительно охранял плато Гиза и пирамиды фараонов.",
+          detail:"Крупнейшая монолитная скульптура древности, высечена прямо в коренной известняковой скале, оставшейся после выемки блоков для пирамиды Хеопса. Общепринятая (хотя не абсолютно доказанная) атрибуция связывает лицо сфинкса с фараоном Хафра; нос статуи утрачен ещё в древности или Средневековье — популярная версия о пушечном ядре Наполеона документально не подтверждена и, скорее всего, миф.",
+          examples:[
+            { name:"Большой сфинкс в Гизе", img:"sphinx", date:"ок. 2500 до н.э. (предположительно Хафра, IV династия)" }
+          ],
+          },
+        { name:"Ступенчатая пирамида", date:"ок. 2670–2650 до н.э.", type:"tomb",
+          desc:"Первая из пирамид: 6 поставленных друг на друга мастаб. Спроектирована Имхотепом для фараона Джосера.",
+          detail:"Первое в истории человечества монументальное каменное сооружение такого масштаба — до Джосера крупные постройки возводили из сырцового кирпича или дерева. Имхотеп, визирь и архитектор Джосера (позднее обожествлённый как покровитель врачевания и знаний), спроектировал шесть последовательно уменьшающихся мастаб одна на другой — отсюда ступенчатый силуэт. Вокруг пирамиды раскинут заупокойный комплекс с «фальшивыми» дверями и колоннами, имитирующими дворцовую архитектуру, но не имеющими функционального назначения — только ритуальное.",
+          examples:[
+            { name:"Пирамида Джосера в Саккаре", img:"djoser_pyramid", date:"ок. 2670–2650 до н.э. (III династия), архитектор Имхотеп" }
+          ],
+          },
+        { name:"Заупокойный (верхний) храм", date:"ок. 2570 до н.э.", type:"temple",
+          desc:"Храм у подножия пирамиды, где велись постоянные заупокойные обряды жрецов — первый из трёх элементов пирамидного комплекса: верхний храм → крытый переход → храм в долине.",
+          detail:"Верхний (заупокойный) храм примыкал непосредственно к пирамиде с восточной стороны и был конечной точкой крытого перехода, ведущего от храма в долине. Здесь жрецы совершали ежедневный заупокойный ритуал — подношение пищи и напитков для Ка умершего фараона. Гранитные монолитные столбы и облицовка редких пород камня в храме Хафра — одни из самых ранних примеров использования гранита в таком масштабе.",
+          examples:[
+            { name:"Заупокойный храм Хафра (Хефрена)", img:"khafre_temple", date:"ок. 2570 до н.э." }
+          ],
+          },
+        { name:"Классические пирамиды", date:"ок. 2600–2500 до н.э.", type:"tomb",
+          desc:"Одно из семи чудес света. Три крупнейшие — Хеопса, Хефрена и Микерина в Гизе, вокруг которых был заупокойный город. Высота пирамиды Хеопса — 146,6 м, сторона основания — 230 м; изначально облицованы гладким известняком, почти полностью утраченным.",
+          detail:"Три великие пирамиды Гизы возводились на протяжении примерно века — три поколения одной династии (Хуфу, его сын Хафра, внук Менкаура). Строительство пирамиды Хеопса потребовало, по разным оценкам, около 2,3 млн каменных блоков; вопрос о том, как именно их поднимали, до сих пор не имеет единого общепринятого ответа среди египтологов. Изначально пирамиды были облицованы отполированными плитами белого известняка из Туры, которые почти полностью «раздели» на стройматериал для средневекового Каира — сохранился лишь фрагмент облицовки у вершины пирамиды Хефрена.",
+          examples:[
+            { name:"Пирамиды плато Гиза (Хеопса, Хефрена, Микерина)", img:"giza_pyramids", date:"ок. 2600–2500 до н.э. (IV династия)" }
+          ],
+          },
+        { name:"Солнечный храм", date:"ок. 2400 до н.э.", type:"temple",
+          desc:"Монументальный обелиск на постаменте под открытым небом; главная функция — культ бога солнца Ра. Памятники V династии (Абусир / Абу-Гураб).",
+          detail:"Солнечные храмы — самостоятельный тип культовых построек, посвящённых напрямую богу Ра (в отличие от заупокойных храмов при пирамидах, посвящённых культу конкретного фараона). Композиция принципиально проста: массивный каменный обелиск на ступенчатом постаменте, перед которым во дворе под открытым небом стоял жертвенный алтарь — солнцу приносили жертвы именно на свету, а не в затемнённом святилище, как было принято в других египетских храмах. Известно как минимум шесть таких храмов, построенных фараонами V династии, но полностью раскопаны только два.",
+          examples:[
+            { name:"Солнечный храм Ниусерра, Абу-Гураб", img:"niuserre_sun_temple", date:"ок. 2400 до н.э. (V династия)" }
+          ],
+		  gallery: true,
+         },
+      ]},
+      { period:"Среднее царство", date:"ок. 2055 – 1650 до н.э.", num:2, items:[
+        { name:"Скальный храм", date:"ок. 2055–2004 до н.э.", type:"temple",
+          desc:"Совмещает четыре архитектурные традиции разом: основание — мастаба, верх — пирамида, часть высечена в скале. Прототип позднейших полускальных храмов.",
+          detail:"Заупокойный комплекс Ментухотепа II в Дейр-эль-Бахри стал архитектурным манифестом объединения Египта под властью Фив после Первого переходного периода: правитель буквально «собрал» в одном сооружении элементы всех предыдущих традиций — террасное основание по типу мастабы, малую пирамиду наверху (символическую, не для погребения) и колонный зал, частично высеченный в скальном массиве утёса. Спустя пятьсот лет царица Хатшепсут построит свой заупокойный храм буквально по соседству, сознательно ориентируясь на этот образец.",
+          examples:[
+            { name:"Заупокойный храм Ментухотепа II, Дейр-эль-Бахри", img:"mentuhotep_temple", date:"ок. 2055–2004 до н.э. (XI династия)" }
+          ],
+          },
+      ]},
+      { period:"Новое царство", date:"ок. 1550 – 1070 до н.э.", num:3, items:[
+        { name:"Полускальный храм", date:"ок. 1470–1458 до н.э.", type:"temple",
+          desc:"Огромный заупокойный храм, главные помещения которого вытесаны в скале; снаружи — длинные галереи и пандусы, ведущие ко входу.",
+          detail:"Три широкие открытые террасы, соединённые пологими пандусами по центральной оси, врезаны прямо в подножие скального массива Дейр-эль-Бахри — приём, заимствованный у соседнего храма Ментухотепа II и доведённый до монументального совершенства. При Хатшепсут — одной из немногих женщин-фараонов — храм украшали рельефы с описанием экспедиции в страну Пунт и мифом о божественном происхождении царицы от бога Амона. После её смерти преемник Тутмос III приказал сбить многие её изображения и картуши — попытка стереть память о ней из истории.",
+          examples:[
+            { name:"Храм Хатшепсут, Дейр-эль-Бахри", img:"hatshepsut_temple", date:"ок. 1470–1458 до н.э. (XVIII династия), архитектор Сенмут" }
+          ],
+          },
+        { name:"Скальный комплекс", date:"ок. 1264–1244 до н.э.", type:"temple",
+          desc:"Храм целиком высечен в скале; фасад украшают четыре 20-метровые статуи фараона. При строительстве Асуанской плотины был полностью перенесён, чтобы спасти от затопления.",
+          detail:"Абу-Симбел целиком высечен в скале — фасад с четырьмя 20-метровыми статуями Рамсеса II и внутренние залы уходят на 60 метров вглубь горы. Храм построен так, что дважды в год солнечные лучи проникают через весь коридор и освещают статуи в святилище — кроме статуи бога Птаха, связанного с миром мёртвых, которая всегда остаётся в тени. При строительстве Асуанской плотины в 1960-х храм распилили на более чем 1000 блоков и полностью пересобрали на 65 метров выше и в 200 метрах от исходного места — уникальный в истории охраны памятников проект по спасению от затопления.",
+          examples:[
+            { name:"Храм Рамсеса II, Абу-Симбел", img:"abu_simbel", date:"ок. 1264–1244 до н.э. (XIX династия)" }
+          ],
+          },
+        { name:"Наземный храм", date:"ок. 1184–1153 до н.э.", type:"temple",
+          desc:"Классический заупокойный храм на поверхности, построен по типовой схеме храмового комплекса Нового царства.",
+          detail:"В отличие от скальных и полускальных храмов, наземный заупокойный храм строился по «стандартной» для Нового царства схеме открытого комплекса — пилон, двор, гипостильный зал, святилище — без привязки к скальному массиву. Мединет-Абу интересен ещё и тем, что после падения централизованной власти в конце Нового царства его крепостные стены использовались как укреплённое поселение — археологи находят следы позднейшей жилой застройки прямо внутри некогда сакрального пространства.",
+          examples:[
+            { name:"Заупокойный храм Рамсеса III, Мединет-Абу", img:"ramesses3_temple", date:"ок. 1184–1153 до н.э. (XX династия)" }
+          ],
+          },
+        { name:"Храмовый комплекс", date:"ок. 2000–1070 до н.э.", type:"temple",
+          desc:"Общая структура: аллея сфинксов → вход через пилон → двор с колоннадой → гипостильный (многоколонный) зал → святилище.",
+          detail:"Карнак и Луксор соединяла двухкилометровая аллея сфинксов — процессионная дорога для главного религиозного праздника года, Опет, когда статую Амона торжественно переносили из Карнака в Луксор и обратно. В отличие от единовременно спроектированных построек, Карнакский комплекс наращивался почти два тысячелетия: каждый следующий фараон пристраивал собственный пилон, зал или обелиск, стремясь превзойти предшественника — по Карнаку буквально можно читать историю египетской архитектуры слой за слоем.",
+          examples:[
+            { name:"Храм в Луксоре", img:"luxor_temple", date:"начат ок. 1400 до н.э. (Аменхотеп III), дополнен Рамсесом II ок. 1279 до н.э." },
+            { name:"Карнакский храмовый комплекс", img:"karnak_temple", date:"строился ок. 2000–1070 до н.э.", blurb:"Гипостильный зал Карнака — 134 колонны высотой до 21 метра, одно из самых грандиозных крытых колонных пространств древнего мира." }
+          ],
+		  gallery: true,
+          },
+      ]},
+    ]
+  },
+  {
+    key:"etruscan", civ:"Этруски", accent:"etruscan",
+    note:"ок. VIII – I вв. до н.э., мост между Грецией и Римом",
+    groups:[
+      { period:"Этруски", date:"ок. VIII – I вв. до н.э.", num:1, items:[
+        { name:"Стены и ворота", date:"ок. IV–III вв. до н.э.", type:"urban",
+          desc:"Этруски стали использовать циклопическую кладку, когда камни идеально подходили друг к другу. Также они одни из первых начали планировать пространство городов и крепостей.",
+          detail:"Циклопическая кладка (крупные полигональные блоки, подогнанные друг к другу без раствора) — не только микенский приём: этруски пользовались им же для городских стен, наряду с более регулярной рядовой кладкой (opus quadratum) из прямоугольных блоков. Этрусские города, в отличие от стихийно разросшихся греческих полисов, нередко закладывались по единому плану с самого начала — с этим связывают и легенду об «этрусской дисциплине» (ritus Etruscus), своде правил закладки города, которую позже переняли римляне при основании колоний.",
+          examples:[
+            { name:"Порта-алл'Арко в Вольтерре", img:"porta_allarco", date:"ок. IV–III вв. до н.э.", blurb:"Одни из лучших сохранившихся этрусских ворот с настоящей аркой; сложены из туфа без раствора, украшены тремя каменными головами божеств. В июне 1944 года жители Вольтерры за одну ночь заложили арку камнями, спасая её от подрыва отступавшими немецкими войсками." }
+          ],
+          },
+        { name:"Простиль", date:"ок. 510–500 до н.э.", type:"temple",
+          desc:"Этруски посвящали храмы 3 своим главным богам. Эти храмы имели вход только с фасада и строились из терракоты и кирпича. На крыше они были украшены статуями. Этруски создали свой ордер, который позже переняли римляне — тосканский.",
+          detail:"Этрусский храм стоял на высоком подии, взойти на который можно было только по лестнице с фасада — в отличие от греческого храма, обходимого со всех сторон по стилобату. Глубокий передний портик занимал примерно половину площади здания, а целла часто делилась на три части — по одной на каждое божество триады (прообраз римской Капитолийской триады Юпитер–Юнона–Минерва). Поскольку строили из дерева и сырцового кирпича на каменном подии, до нас почти не дошли сами храмы — зато сохранились нарядные терракотовые антефиксы и акротерии, украшавшие крышу.",
+          examples:[
+            { name:"Храм в Вейях, Портоначчо", img:"veii_portonaccio_temple", date:"ок. 510–500 до н.э.", blurb:"Святилище, где была найдена знаменитая терракотовая статуя «Аполлон из Вей» работы скульптора Вулки — редкий случай, когда известно имя этрусского мастера." }
+          ],
+          },
+        { name:"Тумулусы", date:"ок. VII–VI вв. до н.э.", type:"tomb",
+          desc:"Искусственно создавались для погребения знатных вельмож/воинов. Вместе с ними часто захоранивались слуги и животные, а также сокровища.",
+          detail:"Тумулус — курган: каменное кольцо-подпорка у основания и насыпанная сверху земляная шапка, под которой одна или несколько высеченных в туфе погребальных камер. Внутри камеры нередко вырезали в камне подобие настоящего интерьера дома — ложа, подушки, балки перекрытий — то самое немногое, по чему археологи судят об облике несохранившегося этрусского жилища (см. «Домус» ниже).",
+          examples:[
+            { name:"Некрополь Бандитачча в Черветери", img:"banditaccia_necropolis", date:"ок. VII–VI вв. до н.э.", blurb:"Крупнейший этрусский некрополь, объект Всемирного наследия ЮНЕСКО; десятки тумулусов выстроены вдоль правильной сетки «улиц» — фактически город мёртвых, скопированный с планировки настоящего этрусского города." }
+          ],
+          },
+        { name:"Скальные гробницы", date:"ок. IV–II вв. до н.э.", type:"tomb",
+          desc:"Вырубались прямо в скале. Внутри также могли вырезаться предметы быта, животные, оружие для умершего в загробном мире.",
+          detail:"Самостоятельный, отдельный от тумулусов тип погребения: не насыпной курган, а фасад, вырубленный прямо в отвесной туфовой скале — иногда в виде куба с ложной дверью («dado»), иногда с имитацией храмового портика. Внутри, как и в тумулусах, могли вырезать из камня утварь, ложа и оружие для загробной жизни. Такие некрополи типичны для южной Этрурии на более позднем, эллинистическом этапе истории цивилизации.",
+          examples:[
+            { name:"Некрополь Норкия в Лацио — фасады", img:"norchia_facade", date:"ок. IV–II вв. до н.э.", blurb:"Один из самых зрелищных некрополей Этрурии: гробницы-«кубы» и гробницы с ложным храмовым портиком вырублены прямо в отвесной стене каньона." },
+            { name:"Некрополь Норкия в Лацио — интерьер", img:"norchia_interior", date:"ок. IV–II вв. до н.э.", blurb:"Внутри погребальных камер видны вырубленные прямо в туфе ложа и балки — рукотворная имитация деревянного перекрытия жилого дома." }
+          ],
+          gallery: true,
+          },
+        { name:"Домус", date:"ок. VI–IV вв. до н.э.", type:"palace",
+          desc:"Прообраз знаменитых римских домусов. Строились вокруг атриума — священного места в доме.",
+          detail:"От самих этрусских домов почти ничего не сохранилось — жили в основном в постройках из сырцового кирпича и дерева на невысоком каменном цоколе, а римские и более поздние города застроили большинство этрусских поселений сверху. Об облике жилища судят по глиняным погребальным урнам-хижинам (модели дома с двускатной крышей и дымовым отверстием), по немногим раскопанным фундаментам (например, в Марцаботто) и по интерьерам скальных гробниц, имитирующим комнаты дома. Атриум — крытый внутренний двор с отверстием в крыше (комплювием) и бассейном под ним (имплювием) — из этой традиции перешёл в римский домус почти без изменений и оставался его композиционным центром вплоть до поздней Античности.",
+          examples:[
+		  { name:"-", img:"etruscan_domus" }
+		  ],
+          extra:"Конкретный, полностью сохранившийся пример назвать сложно — планировку восстанавливают по фундаментам в Марцаботто и по интерьерам гробниц (см. «Скальные гробницы» выше), а не по одному образцовому зданию.",
+          },
+      ]},
+    ]
+  },
+  {
+    key:"rome", civ:"Древний Рим", accent:"rome",
+    note:"республика и империя: бетон, арка и свод на греческом ордере",
+    groups:[
+      { period:"Инженерные сооружения", date:"IV в. до н.э. – II в. н.э.", num:1, items:[
+        { name:"Акведук", date:"с 312 до н.э.", type:"engineering",
+          desc:"Инженерное сооружение для доставки воды в города. Делались из арок и широких жёлобов.",
+          detail:"Вода шла самотёком: уклон выдерживали в среднем 20–30 см на километр, и большая часть трассы проходила под землёй — знаменитые аркады нужны были только там, где требовалось перейти долину. К началу II в. н.э. Рим снабжали одиннадцать акведуков; устройство и эксплуатацию системы описал Секст Юлий Фронтин, смотритель городских водопроводов, в трактате «De aquaeductu».",
+          examples:[
+            { name:"Акведук Пон-дю-Гар (Гарский мост)", img:"aqueduct_pont_du_gard", date:"ок. 40–60 н.э.", blurb:"Часть 50-километрового акведука, снабжавшего Ним (Немаус). Высота 48,8 м — самый высокий сохранившийся римский акведук; блоки весом до 6 тонн уложены насухо, без раствора." },
+            { name:"Аква Аппия (акведук Аппия Клавдия)", img:"aqueduct_aqua_appia", date:"312 до н.э.", blurb:"Первый римский акведук, построенный цензором Аппием Клавдием Цеком в один год с Аппиевой дорогой. Почти вся его трасса (около 16 км) шла под землёй, аркад у него практически не было." }
+          ],
+          },
+        { name:"Мост", date:"ок. II в. до н.э. – II в. н.э.", type:"engineering",
+          desc:"Инженерное сооружение для переправы. В основном были арочного типа с каменными опорами под водой.",
+          detail:"Чтобы поставить опору прямо в русле, забивали кольцо свай, откачивали воду и заливали внутрь бетон (opus caementicium) на вулканическом песке-пуццолане — такой раствор твердел даже под водой. Арочная схема позволяла перекрывать большие пролёты и собирать распор на быках, поэтому римский мост не зависел от длины доступного бревна.",
+          examples:[
+            { name:"Мост в Алькантаре (Испания)", img:"bridge_alcantara", date:"104–106 н.э.", blurb:"Построен при Траяне архитектором Гаем Юлием Лацером; шесть арок, высота около 45 м, камень уложен насухо. Мост действует до сих пор." }
+          ],
+          },
+        { name:"Дорога", date:"с 312 до н.э.", type:"engineering",
+          desc:"Инженерное сооружение. Строились слоями: крупный камень, щебень, гравий на растворе, мощёное покрытие. Были очень прочны и долговечны, имели водоотводы.",
+          detail:"Классический разрез дороги по Витрувию — четыре слоя: statumen (крупный камень), rudus (щебень с раствором), nucleus (мелкий гравий на растворе) и верхнее покрытие summum dorsum из плотно пригнанных плит. Полотно делали выпуклым, чтобы вода стекала в боковые кюветы. Дороги строили армия и подрядчики по прямым трассам, с мильными столбами и станциями смены лошадей; к IV в. н.э. общая сеть превышала 80 тысяч км мощёных дорог.",
+          examples:[
+            { name:"Аппиева дорога", img:"via_appia", date:"начата 312 до н.э.", blurb:"«Царица дорог» (regina viarum), проложенная Аппием Клавдием Цеком от Рима к Капуе и позже продлённая до Брундизия. Хоронить внутри города запрещалось, поэтому вдоль неё выросла цепь гробниц — в том числе гробница Цецилии Метеллы." }
+          ],
+          },
+      ]},
+      { period:"Общественный центр города", date:"VI в. до н.э. – IV в. н.э.", num:2, items:[
+        { name:"Форум", date:"VI в. до н.э. – II в. н.э.", type:"urban",
+          desc:"Центральные площади городов. Являлись важными экономическими и социальными центрами жизни. Там могли находиться рынки, храмы, культурные объекты и др.",
+          detail:"Форум вырос из рыночной площади и вобрал в себя всё публичное: курию (здание сената), ростру — трибуну оратора, украшенную носами захваченных кораблей (rostra), храмы, базилики, казну. Начиная с Цезаря императоры строили рядом собственные форумы (Цезаря, Августа, Траяна): площадь превращалась из места торга в парадный монумент власти с храмом правящего рода в центре.",
+          examples:[
+            { name:"Римский форум (Forum Romanum)", img:"roman_forum", date:"складывался с VII–VI вв. до н.э.", blurb:"Заболоченная долина между Палатином и Капитолием, осушенная древнейшей клоакой Cloaca Maxima. Здесь стоят храм Сатурна (казна республики), арка Септимия Севера и базилика Максенция." }
+          ],
+          },
+        { name:"Базилика", date:"II в. до н.э. – IV в. н.э.", type:"public",
+          desc:"Прямоугольное вытянутое здание, разделённое рядами опор на нефы. Могло использоваться для судов и торговли.",
+          detail:"Базилика — крытый зал для суда, сделок и собраний, пристроенный к форуму. Внутри её делили рядами колонн на продольные нефы, средний поднимали выше боковых и через окна верхнего яруса освещали зал. Перекрытие в большинстве базилик было деревянным, а не сводчатым: гигантские бетонные своды базилики Максенция — поздний и исключительный случай. Именно эта схема (вытянутый план, нефы, верхний свет) перешла к христианским храмам — отсюда слово «базилика» в церковной архитектуре.",
+          examples:[
+            { name:"Базилика Максенция и Константина в Риме", img:"basilica_maxentius", date:"308–312 н.э.", blurb:"Начата Максенцием, достроена Константином после победы над ним. Три крестовых свода пролётом около 25 м при высоте 35 м — предел возможностей римского бетона; сохранился только боковой неф." }
+          ],
+          },
+        { name:"Термы", date:"I–IV вв. н.э.", type:"public",
+          desc:"Общественные бани, совмещавшие мытьё с отдыхом и общением: кроме залов с водой в них были библиотеки, площадки для упражнений, залы для прогулок. Часто строились в одном вытянутом прямоугольном здании.",
+          detail:"Маршрут посетителя был почти обязательным: аподитерий (раздевальня) → палестра → тепидарий (тёплый зал) → кальдарий (горячий) → фригидарий (холодный бассейн). Полы лежали на столбиках-гипокаустах, под ними и в полых стенных каналах шёл горячий воздух от печей. Вход стоил символических денег или был бесплатным: термы строили императоры, и это был инструмент политики, а не только гигиена.",
+          examples:[
+            { name:"Термы Каракаллы в Риме", img:"baths_caracalla", date:"212–216 н.э.", blurb:"Вмещали до 1600 человек одновременно, весь комплекс с садами и библиотеками занимал около 11 гектаров. Мраморная облицовка и статуи (в том числе «Фарнезский бык») давно вывезены, но стены стоят до сих пор." }
+          ],
+          },
+      ]},
+      { period:"Зрелищные сооружения", date:"I в. до н.э. – III в. н.э.", num:3, items:[
+        { name:"Театр", date:"I в. до н.э. – II в. н.э.", type:"public",
+          desc:"Использовали конструкцию греческих как основу, но теперь имели отдельное помещение для переодевания актёров и искусственную стену. Часто строились уже внутри здания.",
+          detail:"Главное отличие от греческого театра — независимость от рельефа: грекам нужен был склон холма, римляне подняли зрительские ряды на сводчатых субструкциях и поставили театр на ровном месте посреди города. Орхестра из круглой стала полукруглой, а сцену замкнула высокая каменная стена scaenae frons с колоннами и нишами — она же служила постоянной декорацией и отражала звук в зал.",
+          examples:[
+            { name:"Театр Марцелла в Риме", img:"theatre_marcellus", date:"открыт в 13–11 до н.э.", blurb:"Начат Юлием Цезарем, достроен Августом и назван в честь его рано умершего племянника Марцелла. Вмещал около 15 тысяч зрителей; в Средневековье превращён в крепость, потом в дворец — верхние этажи жилые до сих пор." }
+          ],
+          },
+        { name:"Амфитеатр", date:"I–III вв. н.э.", type:"public",
+          desc:"В отличие от театров имели овальную конструкцию и строились с помощью арок. Имели сложную подземную конструкцию, а также систему ярусов и лестниц для удобного доступа ко всем рядам.",
+          detail:"Амфитеатр — римское изобретение без греческого прообраза: буквально «двойной театр», два полукружия, сомкнутые в эллипс. Сеть входов-вомиториев и нумерованных лестниц разводила десятки тысяч зрителей по местам согласно сословию и позволяла заполнить и опустошить здание за считаные минуты. Под ареной прятался гипогей — два яруса коридоров с клетками и подъёмниками, через люки зверей и декорации подавали прямо наверх.",
+          examples:[
+            { name:"Колизей (амфитеатр Флавиев) в Риме", img:"colosseum", date:"72–80 н.э.", blurb:"Начат при Веспасиане на месте пруда в парке Нерона, открыт при Тите стодневными играми. Высота 48 м, вместимость по разным оценкам 50–70 тысяч; три яруса фасада несут наложенные ордера — снизу вверх тосканский, ионический, коринфский." }
+          ],
+          },
+        { name:"Цирк (ипподром)", date:"VI в. до н.э. – IV в. н.э.", type:"public",
+          desc:"Имели конструкцию в виде вытянутого овала, трибун и ложи по краям.",
+          detail:"Цирк предназначался для гонок колесниц — самого массового зрелища Рима. Посередине шла невысокая стена-спина с обелисками и счётчиками кругов в виде дельфинов и яиц, а поворотные столбы-меты на её концах были самым опасным местом трассы. На скачках, в отличие от гладиаторских боёв и театра, мужчины и женщины сидели вместе — единственное публичное зрелище без разделения мест.",
+          examples:[
+            { name:"Большой цирк (Circus Maximus) в Риме", img:"circus_maximus", date:"традиционно с VI в. до н.э.; в камне — при Цезаре и Траяне", blurb:"Арена около 600 × 140 м в долине между Палатином и Авентином; по поздним оценкам вмещал до 150 тысяч зрителей — крупнейшее зрелищное сооружение античности. Сегодня на его месте городской парк, повторяющий форму арены." }
+          ],
+          },
+      ]},
+      { period:"Культовые сооружения", date:"II в. до н.э. – II в. н.э.", num:4, items:[
+        { name:"Римский храм", date:"II–I вв. до н.э.", type:"temple",
+          desc:"Использовал греческие типы храмов. Наиболее популярными были псевдопериптеры и круглые храмы. Часто ставились на высокий подиум.",
+          detail:"Римский храм — греческий ордер, поставленный на этрусскую основу: высокий подиум, вход только с одного торца по лестнице и глубокий портик впереди вместо равнодоступного со всех сторон греческого периптера. Отсюда фронтальность: храм рассчитан на взгляд спереди, с площади. Колонны вдоль боковых стен чаще всего превращались в полуколонны, вросшие в стену целлы, — это и есть псевдопериптер. Круглые римские храмы (храм Весты на форуме, храм Геркулеса Виктора) обычно имеют целлу, окружённую кольцом колонн; настоящий моноптер без стен — редкость, чаще это садовые и мемориальные постройки.",
+          examples:[
+            { name:"Храм Фортуны Вирилис (храм Портуна) в Риме", img:"temple_portunus", date:"ок. 120–80 до н.э.", blurb:"Один из лучше всего сохранившихся республиканских храмов: ионический псевдопериптер на подиуме, портик из четырёх свободно стоящих колонн, по бокам — полуколонны в стене целлы. Уцелел потому, что в IX веке был обращён в церковь." }
+          ],
+          },
+        { name:"Пантеон", date:"118–128 н.э.", type:"temple",
+          desc:"Уникальный храм всех богов. Состоит из портика с колоннами и цилиндрической основной части — ротонды, перекрытой бетонным куполом диаметром 43,3 метра.",
+          detail:"Купол — не монолитный кусок бетона, а точный расчёт: его заливали слоями, меняя заполнитель от тяжёлого травертина у основания к лёгкой пемзе у вершины, толщина свода падает с 6 м внизу до 1,2 м у окулюса, а кессоны на внутренней поверхности ещё и облегчают конструкцию. Диаметр купола в точности равен высоте помещения — внутрь вписывается идеальный шар. Девятиметровый окулюс открыт небу и остаётся единственным источником света. Это крупнейший неармированный бетонный купол в мире до сих пор. Здание уцелело потому, что в 609 году его освятили как церковь Санта-Мария-ад-Мартирес; надпись на фризе с именем Агриппы относится к более раннему храму, сгоревшему на этом месте.",
+          examples:[
+            { name:"Пантеон в Риме", img:"pantheon", date:"118–128 н.э. (Адриан), на месте храма Агриппы 27–25 до н.э.", blurb:"Портик из 16 монолитных гранитных колонн, привезённых из Египта: каждая около 12 м высотой и до 60 тонн весом. Здесь похоронен Рафаэль." }
+          ],
+          },
+        { name:"Алтарь", date:"I в. до н.э. – I в. н.э.", type:"monument",
+          desc:"Строились в честь знаменитых военных побед и событий. Устройство такое: в середине жертвенник, он окружён оградой с рельефами.",
+          detail:"Собственно алтарь — небольшой жертвенник; всё величие такого памятника держится на ограде вокруг него. У Алтаря Мира ограда сплошь покрыта рельефом: внизу растительный орнамент с побегами аканфа, выше — процессия императорской семьи, где узнаются конкретные люди, вплоть до детей, тянущих взрослых за одежду. Это ранний пример политической программы, изложенной средствами скульптуры: мир (pax), плодородие и законная преемственность власти.",
+          examples:[
+            { name:"Алтарь Мира (Ara Pacis Augustae) в Риме", img:"ara_pacis", date:"13–9 до н.э.", blurb:"Заложен сенатом в честь возвращения Августа из Испании и Галлии. Собран из разрозненных фрагментов в XX веке и стоит теперь в отдельном павильоне на берегу Тибра." }
+          ],
+          },
+      ]},
+      { period:"Жилые постройки", date:"II в. до н.э. – I в. н.э.", num:5, items:[
+        { name:"Вилла", date:"II в. до н.э. – I в. н.э.", type:"palace",
+          desc:"Загородные дома двух типов: для ведения хозяйства и для отдыха. Строились комнатами вокруг дворика-центра. Могли иметь 2 этажа.",
+          detail:"Villa rustica — хозяйственная усадьба с давильнями, амбарами и жильём работников; villa urbana — загородный дом для отдыха, с портиками, садами, банями и видовыми террасами. Планировка наследует городскому дому-домусу: помещения группируются вокруг атрия со световым проёмом и перистиля — дворика с колоннадой. Стены расписывали фресками, и именно по виллам Кампании, засыпанным пеплом Везувия в 79 году, мы вообще знаем римскую живопись.",
+          examples:[
+            { name:"Вилла Мистерий в Помпеях", img:"villa_mysteries_pompeii", date:"ок. II в. до н.э., фрески ок. 60–50 до н.э.", blurb:"Названа по циклу фресок второго помпейского стиля: фигуры почти в натуральную величину на ярко-красном фоне изображают обряд посвящения в дионисийские мистерии. Погибла вместе с городом при извержении Везувия в 79 году." }
+          ],
+          },
+      ]},
+      { period:"Мемориальные сооружения", date:"I в. до н.э. – III в. н.э.", num:6, items:[
+        { name:"Гробница", date:"I в. до н.э. – II в. н.э.", type:"tomb",
+          desc:"Монументальные сооружения. Часто делались круглой формы — цилиндр, завершённый земляной насыпью. Некоторые гробницы имели дополнительные помещения помимо основной ротонды.",
+          detail:"Круглая гробница-ротонда пришла в Рим от этрусков (см. тумулусы в разделе «Этруски»): каменный барабан, а над ним — земляная насыпь, обычно засаженная деревьями, а не каменный купол. Хоронить внутри городских стен запрещал ещё закон XII таблиц, поэтому гробницы выстраивались вдоль дорог при выезде из города: надгробие работало как памятник роду для каждого проезжающего.",
+          examples:[
+            { name:"Мавзолей Августа в Риме", img:"mausoleum_augustus", date:"28 до н.э.", blurb:"Диаметр около 87 м; цилиндрические ярусы несли земляную насыпь с кипарисами и бронзовую статую Августа на вершине. Внутри — камеры с урнами всей династии Юлиев-Клавдиев." },
+            { name:"Гробница Цецилии Метеллы на Аппиевой дороге", img:"tomb_cecilia_metella", date:"ок. 30–10 до н.э.", blurb:"Цилиндр диаметром 29 м, облицованный травертином, с фризом из букраниев — бычьих черепов. В XIV веке семья Каэтани встроила её в свой замок и надстроила зубцами, поэтому она так хорошо сохранилась." }
+          ],
+          },
+        { name:"Триумфальная арка", date:"I–III вв. н.э.", type:"monument",
+          desc:"Возводились для триумфов императоров. Были 1 или 3 пролётными. Состояли из двух опорных башен и арки. Над аркой размещался текст или стояли статуи.",
+          detail:"Арка — памятник без утилитарной функции: сквозь неё проходило триумфальное шествие, и она навсегда закрепляла событие в камне. Верхняя часть, аттик, несла посвятительную надпись и бронзовую квадригу, а рельефы внутри пролёта рассказывали о конкретной кампании. Конструктивно арка стала витриной римского приёма: несущая часть здесь сводчатая, а колонны на фасаде — уже декоративные, приставленные к массиву. Этот тип пережил античность и вернулся в Новое время — от арки Звезды в Париже до Нарвских ворот в Петербурге.",
+          examples:[
+            { name:"Арка Тита в Риме", img:"arch_titus", date:"ок. 81 н.э.", blurb:"Однопролётная, поставлена после смерти Тита при его брате Домициане в память о взятии Иерусалима. Внутри прохода — два знаменитых рельефа: процессия с трофеями и Тит на колеснице." },
+            { name:"Арка Септимия Севера в Риме", img:"arch_septimius_severus", date:"203 н.э.", blurb:"Трёхпролётная, на Римском форуме, в честь побед над парфянами. Имя Геты, младшего сына императора, было стёрто с надписи его братом Каракаллой — damnatio memoriae, «проклятие памяти»." }
+          ],
+          },
+      ]},
+    ]
+  },
+];
+
+const root = document.getElementById('root');
+
+function imgTag(key, cls, isGallery = false){
+  const src = (typeof IMAGES !== 'undefined' && IMAGES[key]) || '';
+  if(isGallery){
+    return `<div class="slide" style="display:none;"><img class="${cls||''}" src="${src}" alt="" loading="lazy"></div>`;
+  } else {
+    return `<img class="${cls||''}" src="${src}" alt="" loading="lazy">`;
+  }
+}
+
+// === ГЛОБАЛЬНЫЕ СПИСКИ ДЛЯ СРАВНЕНИЯ И САМОПРОВЕРКИ ===
+const CATS = {
+  temple:   "Храмы",
+  tomb:     "Гробницы и курганы",
+  palace:   "Дворцы и жилища",
+  urban:    "Городские и оборонительные сооружения",
+  monument: "Памятники и святилища",
+  public:   "Общественные здания",
+  engineering: "Инженерные сооружения",
+};
+let itemCounter = 0;
+const ALL_ITEMS = [];      // для режима "Сравнение": по одной записи на карточку
+const ALL_EXAMPLES = [];   // для режима "Самопроверка": по одной записи на пример-фото
+
+DATA.forEach(civ => {
+  const section = document.createElement('section');
+  section.className = 'civ';
+  section.id = civ.key;
+  section.style.setProperty('--accent', `var(--${civ.accent})`);
+  section.style.setProperty('--accent-soft', `var(--${civ.accent}-soft)`);
+
+  const head = document.createElement('div');
+  head.className = 'civ-head';
+  head.innerHTML = `<h2>${civ.civ}</h2><span class="civ-note">${civ.note}</span>`;
+  section.appendChild(head);
+
+  civ.groups.forEach(group => {
+    const g = document.createElement('div');
+    g.className = 'group';
+
+    const gh = document.createElement('div');
+    gh.className = 'group-head';
+    gh.innerHTML = `<span class="num">${group.num}</span><h3>${group.period}</h3><span class="g-date">${group.date}</span>`;
+    g.appendChild(gh);
+
+    const thread = document.createElement('div');
+    thread.className = 'thread';
+
+    group.items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.type = item.type || '';
+
+      const itemId = `it${itemCounter++}`;
+      card.dataset.itemId = itemId;
+      const firstImgKey = item.examples[0] ? item.examples[0].img : null;
+      ALL_ITEMS.push({
+        id: itemId, name: item.name, date: item.date, desc: item.desc, type: item.type,
+        img: firstImgKey, civ: civ.civ, accent: civ.accent,
+      });
+      item.examples.forEach(e => {
+        ALL_EXAMPLES.push({
+          img: e.img, name: e.name, date: e.date, blurb: e.blurb || '',
+          itemName: item.name, itemType: item.type, civ: civ.civ, accent: civ.accent,
+        });
+      });
+
+      const uniqueImgKeys = [...new Set(item.examples.map(e => e.img))];
+      const mediaCls = uniqueImgKeys.length > 1 ? '' : 'single';
+      const mediaImgs = uniqueImgKeys.map(k => imgTag(k)).join('');
+
+      const examplesHtml = item.examples.map(e => `
+        <div class="example">
+          ${imgTag(e.img)}
+          <div class="ex-body">
+            <span class="ex-name">${e.name}</span>
+            <span class="ex-date">${e.date||''}</span>
+            ${e.blurb ? `<span class="ex-blurb">${e.blurb}</span>` : ''}
+          </div>
+        </div>`).join('');
+
+            card.innerHTML = `
+        <div class="card-media ${mediaCls}">
+          ${item.gallery ? `
+            <div class="slider-container" style="position:relative; width:100%; height:170px; overflow:hidden;">
+              ${item.examples.map((e, index) => `
+                <div class="slide" style="display:${index === 0 ? 'block' : 'none'}; width:100%; height:100%;">
+                  <img src="${IMAGES[e.img] || ''}" alt="" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+              `).join('')}
+              <button class="slider-btn prev" onclick="prevSlide(this)">‹</button>
+              <button class="slider-btn next" onclick="nextSlide(this)">›</button>
+            </div>
+          ` : mediaImgs}
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-name">${item.name}</span>
+            <span class="card-date">${item.date||''}</span>
+          </div>
+          <div class="card-desc">${item.desc}</div>
+          <div class="card-actions">
+            <button type="button" class="toggle-btn"></button>
+            <button type="button" class="compare-toggle" data-item-id="${itemId}">+ сравнить</button>
+          </div>
+          <div class="card-detail">
+            <div>${item.detail}</div>
+            ${examplesHtml}
+            ${item.extra ? `<div class="extra-note">${item.extra}</div>` : ''}
+            ${item.fix ? `<div class="fix-note"><span class="mark">✦</span><span>${item.fix}</span></div>` : ''}
+          </div>
+        </div>
+      `;
+      card.querySelector('.toggle-btn').addEventListener('click', () => {
+        card.classList.toggle('open');
+      });
+      card.querySelector('.compare-toggle').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCompare(itemId, e.currentTarget);
+      });
+      thread.appendChild(card);
+    });
+
+    g.appendChild(thread);
+    section.appendChild(g);
+  });
+
+  root.appendChild(section);
+});
+function nextSlide(btn) {
+  const container = btn.closest('.slider-container');
+  const slides = container.querySelectorAll('.slide');
+  let activeIndex = 0;
+  slides.forEach((slide, i) => {
+    if (slide.style.display === 'block') activeIndex = i;
+  });
+  slides[activeIndex].style.display = 'none';
+  const nextIndex = (activeIndex + 1) % slides.length;
+  slides[nextIndex].style.display = 'block';
+}
+
+function prevSlide(btn) {
+  const container = btn.closest('.slider-container');
+  const slides = container.querySelectorAll('.slide');
+  let activeIndex = 0;
+  slides.forEach((slide, i) => {
+    if (slide.style.display === 'block') activeIndex = i;
+  });
+  slides[activeIndex].style.display = 'none';
+  const prevIndex = (activeIndex - 1 + slides.length) % slides.length;
+  slides[prevIndex].style.display = 'block';
+}
+// === ПОИСК + ФИЛЬТР ПО ТИПУ СООРУЖЕНИЯ ===
+const activeTypes = new Set(); // пусто = показываем все типы
+
+const typeFiltersEl = document.getElementById('typeFilters');
+Object.keys(CATS).forEach(key => {
+  // показываем чип только если такой тип реально встречается на сайте
+  if (!ALL_ITEMS.some(it => it.type === key)) return;
+  const chip = document.createElement('button');
+  chip.type = 'button';
+  chip.className = 'type-chip';
+  chip.dataset.type = key;
+  chip.textContent = CATS[key];
+  chip.addEventListener('click', () => {
+    if (activeTypes.has(key)) { activeTypes.delete(key); chip.classList.remove('active'); }
+    else { activeTypes.add(key); chip.classList.add('active'); }
+    filterCards();
+  });
+  typeFiltersEl.appendChild(chip);
+});
+
+function filterCards() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    const name = card.querySelector('.card-name')?.textContent.toLowerCase() || '';
+    const matchesQuery = query === '' || name.includes(query);
+    const matchesType = activeTypes.size === 0 || activeTypes.has(card.dataset.type);
+    card.style.display = (matchesQuery && matchesType) ? 'flex' : 'none';
+  });
+
+  // скрываем пустые группы и целые разделы цивилизаций, если в них не осталось карточек
+  document.querySelectorAll('.group').forEach(group => {
+    const visible = [...group.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+    group.style.display = visible ? '' : 'none';
+  });
+  document.querySelectorAll('section.civ').forEach(section => {
+    const visible = [...section.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+    let empty = section.querySelector('.empty-state');
+    if (!visible) {
+      section.querySelectorAll('.group').forEach(g => g.style.display = 'none');
+      if (!empty) {
+        empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'По этому запросу здесь ничего не нашлось.';
+        section.appendChild(empty);
+      }
+    } else if (empty) {
+      empty.remove();
+    }
+  });
+}
+
+document.getElementById('searchBtn').addEventListener('click', filterCards);
+document.getElementById('resetBtn').addEventListener('click', function() {
+  document.getElementById('searchInput').value = '';
+  activeTypes.clear();
+  typeFiltersEl.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+  filterCards();
+});
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') filterCards();
+});
+
+// === РЕЖИМ "СРАВНЕНИЕ" ===
+const compareSet = new Map(); // itemId -> item
+
+function toggleCompare(itemId, btn) {
+  const item = ALL_ITEMS.find(it => it.id === itemId);
+  if (!item) return;
+  if (compareSet.has(itemId)) {
+    compareSet.delete(itemId);
+    btn.classList.remove('on');
+    btn.textContent = '+ сравнить';
+  } else {
+    compareSet.set(itemId, item);
+    btn.classList.add('on');
+    btn.textContent = '✓ в сравнении';
+  }
+  updateCompareBar();
+}
+
+function updateCompareBar() {
+  const bar = document.getElementById('compareBar');
+  const count = compareSet.size;
+  document.getElementById('compareCount').textContent = `В сравнении: ${count}`;
+  bar.classList.toggle('show', count > 0);
+}
+
+function renderCompare() {
+  const grid = document.getElementById('compareGrid');
+  const hint = document.querySelector('.compare-hint');
+  grid.innerHTML = '';
+  if (compareSet.size === 0) {
+    hint.style.display = 'block';
+    return;
+  }
+  hint.style.display = compareSet.size < 2 ? 'block' : 'none';
+  [...compareSet.values()].forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'compare-card';
+    card.style.setProperty('--c-accent', `var(--${item.accent})`);
+    card.innerHTML = `
+      ${imgTag(item.img)}
+      <div class="cc-body">
+        <span class="cc-civ">${item.civ}${item.type ? ' · ' + CATS[item.type] : ''}</span>
+        <span class="cc-name">${item.name}</span>
+        <span class="cc-date">${item.date || ''}</span>
+        <p class="cc-desc">${item.desc}</p>
+        <button type="button" class="cc-remove">убрать</button>
+      </div>
+    `;
+    card.querySelector('.cc-remove').addEventListener('click', () => {
+      compareSet.delete(item.id);
+      const cardBtn = document.querySelector(`.compare-toggle[data-item-id="${item.id}"]`);
+      if (cardBtn) { cardBtn.classList.remove('on'); cardBtn.textContent = '+ сравнить'; }
+      updateCompareBar();
+      renderCompare();
+    });
+    grid.appendChild(card);
+  });
+}
+
+document.getElementById('compareGoBtn').addEventListener('click', () => setMode('compare'));
+document.getElementById('compareClearBtn').addEventListener('click', () => {
+  compareSet.clear();
+  document.querySelectorAll('.compare-toggle.on').forEach(b => { b.classList.remove('on'); b.textContent = '+ сравнить'; });
+  updateCompareBar();
+  renderCompare();
+});
+
+// === РЕЖИМ "САМОПРОВЕРКА" ===
+const CIVS_META = DATA.map(c => ({ key:c.key, civ:c.civ, accent:c.accent }));
+let quizDeck = [];
+let quizIndex = 0;
+let quizScore = { know:0, dontknow:0 };
+
+function shuffled(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderQuizSetup() {
+  const wrap = document.getElementById('quizView');
+  wrap.innerHTML = `
+    <div class="quiz-setup">
+      <h3 class="display" style="margin-bottom:.6rem;">Самопроверка</h3>
+      <p>По фотографии нужно вспомнить название памятника, датировку и к какой культуре он относится — удобно для подготовки к олимпиаде. Выберите разделы для тренировки:</p>
+      <div class="quiz-civ-picks" id="quizCivPicks"></div>
+      <button type="button" class="quiz-start-btn" id="quizStartBtn">Начать самопроверку</button>
+    </div>
+  `;
+  const picks = document.getElementById('quizCivPicks');
+  const activeCivs = new Set(CIVS_META.map(c => c.key));
+  CIVS_META.forEach(c => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'type-chip active';
+    chip.textContent = c.civ;
+    chip.addEventListener('click', () => {
+      if (activeCivs.has(c.key)) { activeCivs.delete(c.key); chip.classList.remove('active'); }
+      else { activeCivs.add(c.key); chip.classList.add('active'); }
+    });
+    picks.appendChild(chip);
+  });
+  document.getElementById('quizStartBtn').addEventListener('click', () => {
+    const pool = ALL_EXAMPLES.filter(e => activeCivs.has(DATA.find(c => c.civ === e.civ)?.key));
+    if (pool.length === 0) return;
+    quizDeck = shuffled(pool);
+    quizIndex = 0;
+    quizScore = { know:0, dontknow:0 };
+    renderQuizCard();
+  });
+}
+
+function renderQuizCard() {
+  const wrap = document.getElementById('quizView');
+  if (quizIndex >= quizDeck.length) {
+    const total = quizScore.know + quizScore.dontknow;
+    wrap.innerHTML = `
+      <div class="quiz-done">
+        <h3 class="display">Готово!</h3>
+        <div class="qd-score">${quizScore.know} / ${total}</div>
+        <button type="button" class="quiz-start-btn" id="quizAgainBtn">Пройти ещё раз</button>
+      </div>
+    `;
+    document.getElementById('quizAgainBtn').addEventListener('click', renderQuizSetup);
+    return;
+  }
+  const ex = quizDeck[quizIndex];
+  wrap.innerHTML = `
+    <div class="quiz-progress">${quizIndex + 1} / ${quizDeck.length} · знал: ${quizScore.know} · не знал: ${quizScore.dontknow}</div>
+    <div class="quiz-card">
+      ${imgTag(ex.img)}
+      <div class="quiz-body">
+        <div class="quiz-actions">
+          <button type="button" class="reveal-btn" id="revealBtn">Показать ответ</button>
+        </div>
+        <div class="quiz-answer" id="quizAnswer">
+          <span class="qa-name">${ex.name}</span>
+          <span class="qa-meta">${ex.civ} · ${ex.itemType ? CATS[ex.itemType] + ' · ' : ''}${ex.date || ''}</span>
+          ${ex.blurb ? `<span class="qa-blurb">${ex.blurb}</span>` : `<span class="qa-blurb">Тип на доске: «${ex.itemName}».</span>`}
+          <div class="quiz-actions" style="margin-top:.5rem;">
+            <button type="button" class="know-btn" id="knowBtn">Знал</button>
+            <button type="button" class="dontknow-btn" id="dontknowBtn">Не знал</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('revealBtn').addEventListener('click', () => {
+    document.getElementById('quizAnswer').classList.add('show');
+  });
+  document.getElementById('knowBtn').addEventListener('click', () => { quizScore.know++; quizIndex++; renderQuizCard(); });
+  document.getElementById('dontknowBtn').addEventListener('click', () => { quizScore.dontknow++; quizIndex++; renderQuizCard(); });
+}
+
+// === ПЕРЕКЛЮЧЕНИЕ РЕЖИМОВ ===
+function setMode(mode) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.getElementById('root').classList.toggle('active', mode === 'timeline');
+  document.getElementById('compareView').classList.toggle('active', mode === 'compare');
+  document.getElementById('quizView').classList.toggle('active', mode === 'quiz');
+  document.getElementById('timelineControls').style.display = mode === 'timeline' ? 'flex' : 'none';
+  document.getElementById('typeFilters').style.display = mode === 'timeline' ? 'flex' : 'none';
+  document.getElementById('jumpNav').style.display = mode === 'timeline' ? 'flex' : 'none';
+  if (mode === 'compare') renderCompare();
+  if (mode === 'quiz' && !document.getElementById('quizView').innerHTML.trim()) renderQuizSetup();
+}
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => setMode(tab.dataset.mode));
+});
+renderQuizSetup();
+</script>
+
+<!-- Кнопка "Наверх" -->
+<button id="goTopBtn" title="Наверх" style="position: fixed; bottom: 30px; right: 30px; display: none; width: 50px; height: 50px; border-radius: 50%; background: var(--ink); color: var(--paper); border: none; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s; z-index: 1000;">↑</button>
+
+<script>
+// === КНОПКА "НАВЕРХ" ===
+const goTopBtn = document.getElementById('goTopBtn');
+
+// Показываем кнопку, когда прокрутили страницу вниз на 300 пикселей
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 300) {
+    goTopBtn.style.display = 'block';
+  } else {
+    goTopBtn.style.display = 'none';
+  }
+});
+
+// Плавный скролл вверх при нажатии
+goTopBtn.addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+</script>
+</body>
+</html>
